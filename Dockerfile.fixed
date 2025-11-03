@@ -1,0 +1,55 @@
+# Dockerfile.fixed
+# Versão corrigida com versões compatíveis de NumPy, PyTorch e Transformers
+
+# Imagem base Python 3.11 slim
+FROM python:3.11-slim
+
+# Variáveis de ambiente para otimização
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_DEFAULT_TIMEOUT=100
+
+# Diretório de trabalho
+WORKDIR /app
+
+# Instala dependências do sistema necessárias
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Copia apenas o arquivo de requisitos primeiro (cache layer)
+COPY requirements_corrigido.txt requirements.txt
+
+# Instala dependências Python com versões compatíveis
+# IMPORTANTE: NumPy 1.x é necessário para compatibilidade com PyTorch 2.1.0
+RUN pip install --no-cache-dir \
+    "numpy<2.0" \
+    torch==2.1.0+cpu \
+    -f https://download.pytorch.org/whl/torch_stable.html && \
+    pip install --no-cache-dir \
+    flask==3.0.0 \
+    flask-cors==4.0.0 \
+    transformers==4.35.0 \
+    && rm -rf /tmp/* /root/.cache
+
+# Copia o código da aplicação
+COPY app_docker.py app.py
+COPY servicos/ servicos/
+COPY templates/ templates/
+COPY static/ static/
+
+# Expõe a porta da aplicação
+EXPOSE 5000
+
+# Healthcheck para verificar se a aplicação está respondendo
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:5000/api/status || exit 1
+
+# Comando para iniciar a aplicação
+CMD ["python", "app.py"]
+

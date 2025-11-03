@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Inteligência Artificial - Interface Interativa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="cabecalho">
+        <div class="container">
+            <h1>🤖 API de Inteligência Artificial</h1>
+            <p class="subtitulo">Interface interativa para testar os serviços de IA</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+        <!-- Status da API -->
+        <section class="secao-card">
+            <h2>📊 Status da API</h2>
+            <div id="status-api" class="status-box">
+                <p>Carregando...</p>
+            </div>
+            <button onclick="verificarStatus()" class="botao botao-secundario">
+                🔄 Atualizar Status
+            </button>
+        </section>
+
+        <!-- Informações do Modelo -->
+        <section class="secao-card">
+            <h2>🧠 Informações do Modelo de IA</h2>
+            <div id="info-modelo" class="info-box">
+                <p>Carregando...</p>
+            </div>
+        </section>
+
+        <!-- Análise de Sentimento -->
+        <section class="secao-card">
+            <h2>😊 Análise de Sentimento</h2>
+            <p class="descricao">Analise o sentimento de um texto (positivo, negativo ou neutro)</p>
+            
+            <div class="formulario">
+                <label for="texto-sentimento">Digite o texto para análise:</label>
+                <textarea 
+                    id="texto-sentimento" 
+                    rows="4" 
+                    placeholder="Ex: Estou muito feliz com os resultados do projeto!"
+                    class="campo-texto"
+                ></textarea>
+                
+                <button onclick="analisarSentimento()" class="botao botao-primario">
+                    🔍 Analisar Sentimento
+                </button>
+                
+                <div id="resultado-sentimento" class="resultado-box"></div>
+            </div>
+        </section>
+
+        <!-- Geração de Texto -->
+        <section class="secao-card">
+            <h2>✍️ Geração de Texto</h2>
+            <p class="descricao">Gere textos criativos sobre qualquer tema</p>
+            
+            <div class="formulario">
+                <label for="tema-texto">Digite o tema:</label>
+                <input 
+                    type="text" 
+                    id="tema-texto" 
+                    placeholder="Ex: Inteligência Artificial no futuro"
+                    class="campo-texto"
+                />
+                
+                <label for="tamanho-texto">Tamanho do texto:</label>
+                <select id="tamanho-texto" class="campo-select">
+                    <option value="curto">Curto (≈100 palavras)</option>
+                    <option value="medio" selected>Médio (≈250 palavras)</option>
+                    <option value="longo">Longo (≈500 palavras)</option>
+                </select>
+                
+                <button onclick="gerarTexto()" class="botao botao-primario">
+                    ✨ Gerar Texto
+                </button>
+                
+                <div id="resultado-geracao" class="resultado-box"></div>
+            </div>
+        </section>
+
+        <!-- Resumo de Texto -->
+        <section class="secao-card">
+            <h2>📝 Resumo de Texto</h2>
+            <p class="descricao">Resuma textos longos mantendo as informações principais</p>
+            
+            <div class="formulario">
+                <label for="texto-resumir">Digite o texto para resumir:</label>
+                <textarea 
+                    id="texto-resumir" 
+                    rows="6" 
+                    placeholder="Cole aqui o texto que deseja resumir..."
+                    class="campo-texto"
+                ></textarea>
+                
+                <label for="tamanho-resumo">Tamanho do resumo:</label>
+                <select id="tamanho-resumo" class="campo-select">
+                    <option value="curto">Curto (2 frases)</option>
+                    <option value="medio" selected>Médio (1 parágrafo)</option>
+                    <option value="longo">Longo (2-3 parágrafos)</option>
+                </select>
+                
+                <button onclick="resumirTexto()" class="botao botao-primario">
+                    📋 Resumir Texto
+                </button>
+                
+                <div id="resultado-resumo" class="resultado-box"></div>
+            </div>
+        </section>
+
+        <!-- Exemplos de Uso -->
+        <section class="secao-card">
+            <h2>📚 Exemplos de Uso da API</h2>
+            <p class="descricao">Exemplos de como chamar a API usando diferentes ferramentas</p>
+            
+            <div class="exemplos">
+                <div class="exemplo-item">
+                    <h3>🌐 JavaScript (Fetch API)</h3>
+                    <pre><code>// Análise de Sentimento
+fetch('http://localhost:5000/api/sentimento', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        texto: 'Estou muito feliz hoje!'
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data));</code></pre>
+                </div>
+
+                <div class="exemplo-item">
+                    <h3>🐍 Python (Requests)</h3>
+                    <pre><code>import requests
+
+# Gerar Texto
+url = 'http://localhost:5000/api/gerar'
+dados = {
+    'tema': 'Inteligência Artificial',
+    'tamanho': 'medio'
+}
+resposta = requests.post(url, json=dados)
+print(resposta.json())</code></pre>
+                </div>
+
+                <div class="exemplo-item">
+                    <h3>💻 cURL</h3>
+                    <pre><code># Resumir Texto
+curl -X POST http://localhost:5000/api/resumir \
+  -H "Content-Type: application/json" \
+  -d '{
+    "texto": "Seu texto aqui...",
+    "tamanho_resumo": "medio"
+  }'</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentação da API -->
+        <section class="secao-card">
+            <h2>📖 Endpoints Disponíveis</h2>
+            <div class="endpoints">
+                <div class="endpoint-item">
+                    <span class="metodo get">GET</span>
+                    <code>/api/status</code>
+                    <p>Verifica o status da API</p>
+                </div>
+                <div class="endpoint-item">
+                    <span class="metodo get">GET</span>
+                    <code>/api/modelo</code>
+                    <p>Informações sobre o modelo de IA</p>
+                </div>
+                <div class="endpoint-item">
+                    <span class="metodo post">POST</span>
+                    <code>/api/sentimento</code>
+                    <p>Analisa o sentimento de um texto</p>
+                </div>
+                <div class="endpoint-item">
+                    <span class="metodo post">POST</span>
+                    <code>/api/gerar</code>
+                    <p>Gera texto sobre um tema</p>
+                </div>
+                <div class="endpoint-item">
+                    <span class="metodo post">POST</span>
+                    <code>/api/resumir</code>
+                    <p>Resume um texto</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="rodape">
+        <div class="container">
+            <p>🚀 API de IA - Exemplo Didático | Desenvolvido com Flask + OpenAI</p>
+            <p>📝 Todos os nomes de variáveis e comentários em português</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
