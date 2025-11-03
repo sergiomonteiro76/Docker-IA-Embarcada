@@ -78,7 +78,7 @@ Pressione **Ctrl+C** no terminal onde o Docker está rodando.
 
 Ou abra outro PowerShell e execute:
 ```powershell
-docker-compose -f docker-compose-corrigido.yml down
+docker-compose -f docker-compose-final.yml down
 ```
 
 ---
@@ -88,7 +88,7 @@ docker-compose -f docker-compose-corrigido.yml down
 Nas próximas vezes, o processo é muito mais rápido (30 segundos):
 
 ```powershell
-docker-compose -f docker-compose-corrigido.yml up
+docker-compose -f docker-compose-final.yml up
 ```
 
 **Nota:** Remova o `--build` se não fez mudanças no código.
@@ -99,12 +99,12 @@ docker-compose -f docker-compose-corrigido.yml up
 
 | Ação | Comando |
 |------|---------|
-| **Iniciar** | `docker-compose -f docker-compose-corrigido.yml up` |
-| **Iniciar em background** | `docker-compose -f docker-compose-corrigido.yml up -d` |
-| **Parar** | `docker-compose -f docker-compose-corrigido.yml down` |
-| **Ver logs** | `docker-compose -f docker-compose-corrigido.yml logs -f` |
+| **Iniciar** | `docker-compose -f docker-compose-final.yml up` |
+| **Iniciar em background** | `docker-compose -f docker-compose-final.yml up -d` |
+| **Parar** | `docker-compose -f docker-compose-final.yml down` |
+| **Ver logs** | `docker-compose -f docker-compose-final.yml logs -f` |
 | **Ver containers** | `docker ps` |
-| **Rebuild** | `docker-compose -f docker-compose-corrigido.yml up --build` |
+| **Rebuild** | `docker-compose -f docker-compose-final.yml up --build` |
 
 ---
 
@@ -114,7 +114,7 @@ docker-compose -f docker-compose-corrigido.yml up
 **Solução:** Abra o Docker Desktop e aguarde o ícone ficar verde.
 
 ### **Erro: "port is already allocated"**
-**Solução:** Outra aplicação está usando a porta 5000. Pare-a ou mude a porta no `docker-compose-corrigido.yml`:
+**Solução:** Outra aplicação está usando a porta 5000. Pare-a ou mude a porta no `docker-compose-final.yml`:
 ```yaml
 ports:
   - "8080:5000"  # Mude para 8080
