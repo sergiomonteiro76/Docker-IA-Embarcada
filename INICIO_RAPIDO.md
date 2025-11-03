@@ -48,7 +48,7 @@ Se aparecer erro, abra o Docker Desktop e aguarde.
 ### **3. Iniciar a Aplicação**
 
 ```powershell
-docker-compose -f docker-compose-corrigido.yml up --build
+docker-compose -f docker-compose-final.yml up --build
 ```
 
 **O que vai acontecer:**
